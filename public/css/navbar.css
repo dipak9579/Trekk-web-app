@@ -1,0 +1,82 @@
+body {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+}
+
+.navbar {
+    background-color: #023047;
+    color: #fff;
+}
+
+.logo {
+    font-weight:600;
+    margin: 0;
+}
+
+.nav-links {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    padding: 0 15px;
+    
+}
+
+.nav-links a {
+    font-size: 18px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav-links li img{
+    width:35px;
+    height:35px;
+
+    /* background-color: #f9f9f9;
+    border-radius: 50%;
+    border: 1px solid black; */
+    /* margin-right: 5px; */
+
+}
+
+.btn-log {
+    background-color: rgb(12, 109, 207);
+    color: #fff;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+
+button.no-background {
+    font-size: 20px;
+    background: none;         /* Removes the background */
+    border: none;             /* Removes the border */
+    padding: 0;               /* Removes the padding */
+    cursor: pointer;          /* Changes the cursor to a pointer */
+    color: inherit;           /* Inherits the text color */
+    /* font: inherit;            Inherits the font style */
+    outline: none;            /* Removes the outline */
+  }
+
+ul.set-size{
+  
+    width:200px;
+    height:200px;
+}
+.dropdown ul li a{
+  font-size: 15px;
+}
+ 
