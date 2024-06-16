@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-time Location Tracking</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+    <div id="map" style="width: 100%; height: 500px;"></div>
+
+    <script>
+        let map, marker;
+
+        function initMap() {
+            map = L.map('map').setView([51.505, -0.09], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+        }
+
+        function requestLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(savePosition, showError, {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function savePosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            if (!marker) {
+                marker = L.marker([lat, lon]).addTo(map);
+            } else {
+                marker.setLatLng([lat, lon]);
+            }
+            map.setView([lat, lon], 13);
+
+            // Send the position to the server
+            fetch('/update-location', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ latitude: lat, longitude: lon }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        alert('No booking found for this email.');
+                    } else {
+                        alert('Error saving location.');
+                    }
+                } else {
+                    alert('Location saved successfully.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error saving location.');
+            });
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+        }
+
+        window.onload = () => {
+            initMap();
+            requestLocation();
+        };
+    </script>
+</body>
+</html>

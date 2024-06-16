@@ -34,10 +34,12 @@ const bookingSchema = new mongoose.Schema({
         enum: ['Batch1', 'Batch2', 'Batch3'],
         required: true,
     },
+
     terms: {
         type: Boolean,
         required: true,
     },
+    
 }, {
     timestamps: true,
 });
